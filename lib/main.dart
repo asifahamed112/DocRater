@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'DocRater'),
@@ -49,7 +50,6 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }

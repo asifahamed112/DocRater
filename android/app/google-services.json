@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "965146070868",
+    "project_id": "docrater-f9a5a",
+    "storage_bucket": "docrater-f9a5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965146070868:android:dc2e21dab89ee870ab82c1",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdV787o0YoMYx2iyHjENUxascFYbsjb9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

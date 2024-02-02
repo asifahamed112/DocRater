@@ -1,4 +1,5 @@
 import 'package:app/UIhelper.dart';
+import 'package:app/login_page.dart';
 import 'package:app/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _SignupPageState extends State<SignupPage> {
          UserCredential?  usercredential;
          try{
            usercredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value){
-             Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage (title:"HomePage")));
+             Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
            });
          }
          on FirebaseAuthException catch(ex)

@@ -1,3 +1,4 @@
+import 'package:app/HomeView.dart';
 import 'package:app/UIhelper.dart';
 import 'package:app/main.dart';
 import 'package:app/signuppage.dart';
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
         try
             {
               userCredential=await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage(title: "Log In")));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeView(userName: email)));
               } );
             }
             on FirebaseAuthException catch(ex)
@@ -48,7 +49,6 @@ class _LoginPageState extends State<LoginPage> {
         UiHelper.CustomTextfield(emailController,Icons.mail, "Email", false),
         UiHelper.CustomTextfield(passwordController, Icons.lock ,"Password",true),
         SizedBox(height: 10,),
-
         UiHelper.CustomButton(() {
           Login(emailController.text.toString(),passwordController.text.toString());
         }, "Log In"),

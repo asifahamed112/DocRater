@@ -1,12 +1,12 @@
-import 'package:app/HomeView.dart';
-import 'package:app/UIhelper.dart';
-import 'package:app/main.dart';
-import 'package:app/signuppage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:app/UIhelper.dart';
+import 'package:app/signuppage.dart';
+import 'package:app/HomeView.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key, required this.userName}) : super(key: key);
+  final String userName;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -15,25 +15,25 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  Login(String email,String password)async{
-    if(email==""&&password=="")
-    {
+
+  Future<void> Login(String email, String password) async {
+    if (email == "" && password == "") {
       return UiHelper.CustomAlertBox(context, "Enter Required Fields");
-    }
-    else
-      {
-        UserCredential? userCredential;
-        try
-            {
-              userCredential=await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeView(userName: email)));
-              } );
-            }
-            on FirebaseAuthException catch(ex)
-    {
-      return UiHelper.CustomAlertBox(context, ex.code.toString());
-    }
+    } else {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+        String userName = userCredential.user?.displayName ?? "";
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomeView(
+                      userName: userName,
+                    )));
+      } on FirebaseAuthException catch (ex) {
+        return UiHelper.CustomAlertBox(context, ex.code.toString());
       }
+    }
   }
 
   @override
@@ -46,23 +46,39 @@ class _LoginPageState extends State<LoginPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-        UiHelper.CustomTextfield(emailController,Icons.mail, "Email", false),
-        UiHelper.CustomTextfield(passwordController, Icons.lock ,"Password",true),
-        SizedBox(height: 10,),
-        UiHelper.CustomButton(() {
-          Login(emailController.text.toString(),passwordController.text.toString());
-        }, "Log In"),
-          SizedBox(height: 20,),
+          UiHelper.CustomTextfield(emailController, Icons.mail, "Email", false),
+          UiHelper.CustomTextfield(
+              passwordController, Icons.lock, "Password", true),
+          SizedBox(
+            height: 10,
+          ),
+          UiHelper.CustomButton(() {
+            Login(emailController.text.toString(),
+                passwordController.text.toString());
+          }, "Log In"),
+          SizedBox(
+            height: 20,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Don't have an account?",style: TextStyle(fontSize: 15),),
-              TextButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>SignupPage()));
-              }, child: Text("Register",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),))
+              Text(
+                "Don't have an account?",
+                style: TextStyle(fontSize: 15),
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignupPage()));
+                  },
+                  child: Text(
+                    "Register",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ))
             ],
           )
-      ],),
+        ],
+      ),
     );
   }
 }

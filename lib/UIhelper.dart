@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,11 +39,11 @@ class UiHelper {
           },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(50),
             ),
             primary: Color(0xFF17203A),
-            elevation: 5,
-            shadowColor: Colors.black.withOpacity(1),
+            elevation: 4,
+            shadowColor: Colors.black87,
           ),
           child: Text(
             text,
@@ -56,17 +58,22 @@ class UiHelper {
   static CustomAlertBox(BuildContext context, String text) async {
     return showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(text),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("OK"),
-            )
-          ],
+      builder: (context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: AlertDialog(
+            title: Text(text),
+            content: Text(
+                'Oops! It looks like there was an error. Please check your information and try again.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
         );
       },
     );

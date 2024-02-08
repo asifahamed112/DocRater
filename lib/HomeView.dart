@@ -1,10 +1,16 @@
-// HomeView
 import 'package:flutter/material.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   final String userName;
 
   const HomeView({Key? key, required this.userName}) : super(key: key);
+
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +24,11 @@ class HomeView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Hello $userName",
+              "Hello ${widget.userName}",
               style: TextStyle(fontSize: 20, color: Colors.black),
+            ),
+            SizedBox(
+              height: 0,
             ),
             Text(
               "Find your specialist",
@@ -33,31 +42,38 @@ class HomeView extends StatelessWidget {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-        child: Container(
-          height: 45,
-          width: 250,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(.25),
-                spreadRadius: 7,
-                blurRadius: 20,
-                blurStyle: BlurStyle.normal,
-                offset: Offset(0, 0),
+      body: Stack(
+        children: [
+          Positioned(
+            top: 100,
+            left: 90,
+            child: Container(
+              height: 45,
+              width: 250,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.15),
+                    spreadRadius: 7,
+                    blurRadius: 20,
+                    blurStyle: BlurStyle.normal,
+                    offset: Offset(0, 0),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: TextField(
-            decoration: InputDecoration(
-              icon: Icon(Icons.search_rounded),
-              hintText: 'Search Doctor . . . .',
-              hintStyle: TextStyle(color: Colors.grey),
-              border: InputBorder.none,
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.search_rounded),
+                  hintText: 'Search Doctor . . . .',
+                  hintStyle: TextStyle(color: Colors.grey),
+                  border: InputBorder.none,
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

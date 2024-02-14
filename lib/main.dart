@@ -1,5 +1,4 @@
 //main page
-import 'package:app/HomeView.dart';
 import 'package:app/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Builder(
-        builder: (context) => LoginPage(
+        builder: (context) => const LoginPage(
           userName: "your_default_user_name",
         ),
       ),

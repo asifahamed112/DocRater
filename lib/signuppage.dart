@@ -73,7 +73,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sign Up Page"),
+        title: const Text("Sign Up Page"),
         centerTitle: true,
       ),
       body: Column(
@@ -83,7 +83,7 @@ class _SignupPageState extends State<SignupPage> {
           UiHelper.CustomTextfield(emailController, Icons.mail, "Email", false),
           UiHelper.CustomTextfield(
               passwordController, Icons.lock, "Password", true),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           UiHelper.CustomButton(() {
             _signUP(
                 emailController.text.toString(),

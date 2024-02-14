@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login Page"),
+        title: const Text("Login Page"),
         centerTitle: true,
       ),
       body: Column(
@@ -49,29 +49,29 @@ class _LoginPageState extends State<LoginPage> {
           UiHelper.CustomTextfield(emailController, Icons.mail, "Email", false),
           UiHelper.CustomTextfield(
               passwordController, Icons.lock, "Password", true),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           UiHelper.CustomButton(() {
             Login(emailController.text.toString(),
                 passwordController.text.toString());
           }, "Log In"),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Don't have an account?",
                 style: TextStyle(fontSize: 15),
               ),
               TextButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignupPage()));
+                        MaterialPageRoute(builder: (context) => const SignupPage()));
                   },
-                  child: Text(
+                  child: const Text(
                     "Register",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                   ))

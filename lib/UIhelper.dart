@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UiHelper {
@@ -11,10 +10,10 @@ class UiHelper {
       child: TextField(
         controller: controller,
         obscureText: tohide,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
           hintText: text,
-          hintStyle: TextStyle(color: Colors.grey),
+          hintStyle: const TextStyle(color: Colors.grey),
           prefixIcon: Icon(iconData, color: Colors.white),
           filled: true,
           fillColor: Colors.black,
@@ -41,13 +40,13 @@ class UiHelper {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-            primary: Color(0xFF17203A),
+            backgroundColor: const Color(0xFF17203A),
             elevation: 4,
             shadowColor: Colors.black87,
           ),
           child: Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
           ),
         ),
@@ -63,11 +62,13 @@ class UiHelper {
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(
             title: Text(text),
-            content: Text(
+            content: const Text(
                 'Oops! It looks like there was an error. Please check your information and try again.'),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
+                child: const Text(
+                  'OK',
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

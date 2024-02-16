@@ -19,7 +19,17 @@ class _HomeViewState extends State<HomeView> {
     {
       "name": "Cardiology",
       "imageUrl":
-          "https://i.pinimg.com/736x/d3/08/ba/d308ba1a563908dde7efed86f26277f1.jpg"
+          "https://i.pinimg.com/736x/bc/3e/ec/bc3eec881fe88ab75bec51793e8321de.jpg"
+    },
+    {
+      "name": "Chest Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/89/be/ea/89beeab39adf062bdf5dffcd4a6b610f.jpg"
+    },
+    {
+      "name": "Endocrine Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
     },
     // Add more categories as needed
   ];
@@ -53,18 +63,6 @@ class _HomeViewState extends State<HomeView> {
           ],
         ),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              // Navigate to the screen where you can add a doctor
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddDoctorScreen()),
-              );
-            },
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -121,6 +119,17 @@ class _HomeViewState extends State<HomeView> {
                 );
               },
             ),
+          ),
+          IconButton(
+            icon: Icon(Icons.add_circle_outline_sharp),
+            color: Colors.transparent,
+            onPressed: () {
+              // Navigate to the screen where you can add a doctor
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddDoctorScreen()),
+              );
+            },
           ),
         ],
       ),

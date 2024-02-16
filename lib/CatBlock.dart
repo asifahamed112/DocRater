@@ -24,14 +24,25 @@ class CatBlock extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black87.withOpacity(0.3),
+              spreadRadius: 1,
+              blurRadius: 10,
+              offset: Offset(0, 5), // changes position of shadow
+            ),
+          ],
+        ),
         child: Stack(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
                 imageUrl, // Use the imageUrl parameter
-                height: 100,
-                width: 100,
+                height: 110,
+                width: 110,
                 fit: BoxFit.cover,
               ),
             ),
@@ -49,7 +60,7 @@ class CatBlock extends StatelessWidget {
               child: Text(
                 name, // Use the name parameter
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Colors.transparent,
                   fontWeight: FontWeight.w600,
                 ),
               ),

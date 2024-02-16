@@ -17,21 +17,10 @@ class _HomeViewState extends State<HomeView> {
   // Define your categories here
   final List<Map<String, String>> categories = [
     {
-      "name": "doctors",
+      "name": "Cardiology",
       "imageUrl":
           "https://i.pinimg.com/736x/d3/08/ba/d308ba1a563908dde7efed86f26277f1.jpg"
     },
-    {
-      "name": "Cardiologist",
-      "imageUrl":
-          "https://i.pinimg.com/736x/d3/08/ba/d308ba1a563908dde7efed86f26277f1.jpg"
-    },
-    {
-      "name": "Anesthesiologist",
-      "imageUrl":
-          "https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg"
-    },
-
     // Add more categories as needed
   ];
 

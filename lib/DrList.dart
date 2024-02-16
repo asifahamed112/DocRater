@@ -1,12 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DrList extends StatelessWidget {
   final String category;
 
   const DrList({Key? key, required this.category}) : super(key: key);
 
-  // Inside the DrList widget's build method
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,22 +21,33 @@ class DrList extends StatelessWidget {
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              print('No data available for category: $category'); // Debug print
               return Center(child: Text('No data available'));
             } else {
-              print('Category: $category'); // Debug print
-              print(
-                  'Number of documents: ${snapshot.data!.docs.length}'); // Debug print
               return ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot document = snapshot.data!.docs[index];
-                  print('Document data: ${document.data()}'); // Debug print
-                  final doctorName = document.get('name');
+                  final doctorName = document.get('name') ?? 'No Name';
+                  final degrees = document.get('degrees') ?? 'No Degrees';
+                  final location = document.get('location') ?? 'No Location';
+                  final practiceDays =
+                      document.get('practiceDays') ?? 'No Practice Days';
+                  final specialties =
+                      document.get('specialties') ?? 'No Specialties';
+                  final visitingHour =
+                      document.get('visitingHour') ?? 'No Visiting Hour';
                   return ListTile(
-                    title: Text(doctorName ?? 'No Name'),
-                    subtitle:
-                        Text(document['specialization'] ?? 'No Specialization'),
+                    title: Text(doctorName),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Specialties: $specialties'),
+                        Text('Degrees: $degrees'),
+                        Text('Location: $location'),
+                        Text('Visiting Hour: $visitingHour'),
+                        Text('Practice Days: $practiceDays'),
+                      ],
+                    ),
                   );
                 },
               );

@@ -1,20 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:app/CatBlock.dart';
-import 'package:app/AddDoctorScreen.dart';
+// Import necessary packages
+import 'package:flutter/material.dart'; // Flutter material library for UI components
+import 'package:app/CatBlock.dart'; // Custom category block widget
+import 'package:app/AddDoctorScreen.dart'; // Screen to add a doctor
+import 'package:app/DrList.dart'; // Import DrList widget for navigating to doctor list
 
+// HomeView class, a StatefulWidget for the home screen
 class HomeView extends StatefulWidget {
-  final String userName;
+  final String userName; // Username passed from the previous screen
 
+  // Constructor for HomeView widget
   const HomeView({Key? key, required this.userName}) : super(key: key);
 
   @override
-  _HomeViewState createState() => _HomeViewState();
+  _HomeViewState createState() => _HomeViewState(); // Create state for HomeView
 }
 
+// State class for the home screen
 class _HomeViewState extends State<HomeView> {
-  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController =
+      TextEditingController(); // Controller for search field
 
-  // Define your categories here
+  // Define categories with name and image URL
   final List<Map<String, String>> categories = [
     {
       "name": "Cardiology",
@@ -38,91 +44,114 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 100,
-        titleSpacing: 50,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
+        // App bar configuration
+        toolbarHeight: 100, // App bar height
+        titleSpacing: 50, // Spacing between title and edge of the screen
+        elevation: 0, // No elevation
+        backgroundColor: Colors.transparent, // Transparent background
         title: Column(
+          // Column for app bar title and subtitle
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // User greeting
             Text(
-              "Hello ${widget.userName}",
-              style: TextStyle(fontSize: 20, color: Colors.black),
+              "Hello ${widget.userName}", // Display username
+              style: TextStyle(fontSize: 20, color: Colors.black), // Text style
             ),
             SizedBox(
-              height: 0,
+              height: 0, // Spacer between greeting and subtitle
             ),
+            // App subtitle
             Text(
-              "Find your specialist",
+              "Find your specialist", // Subtitle text
               style: TextStyle(
-                fontSize: 30,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+                fontSize: 30, // Subtitle text size
+                color: Colors.black, // Subtitle text color
+                fontWeight: FontWeight.bold, // Subtitle text weight
               ),
             )
           ],
         ),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading:
+            false, // Do not automatically include leading icon/button
       ),
       body: Column(
+        // Column for main content
         children: [
+          // Search field container
           Container(
-            margin: EdgeInsets.symmetric(vertical: 100),
-            padding: EdgeInsets.symmetric(horizontal: 34),
+            margin: EdgeInsets.symmetric(
+                vertical: 100), // Margin around search field
+            padding: EdgeInsets.symmetric(
+                horizontal: 34), // Padding within search field container
             child: Container(
-              height: 45,
-              width: 250,
+              // Search field container
+              height: 45, // Search field height
+              width: 250, // Search field width
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
+                // Search field decoration
+                borderRadius: BorderRadius.circular(100), // Border radius
                 boxShadow: [
+                  // Box shadow for search field
                   BoxShadow(
-                    color: Colors.grey.withOpacity(.3),
-                    spreadRadius: 7,
-                    blurRadius: 20,
-                    blurStyle: BlurStyle.normal,
-                    offset: Offset(0, 0),
+                    color: Colors.grey.withOpacity(.3), // Shadow color
+                    spreadRadius: 7, // Shadow spread radius
+                    blurRadius: 20, // Shadow blur radius
+                    blurStyle: BlurStyle.normal, // Shadow blur style
+                    offset: Offset(0, 0), // Shadow offset
                   ),
                 ],
               ),
               child: TextField(
-                controller: _searchController,
+                // Search text field
+                controller: _searchController, // Controller for search field
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  hintText: 'Search Doctor . . . .',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: InputBorder.none,
+                  // Text field decoration
+                  prefixIcon: Icon(Icons.search), // Search icon
+                  hintText: 'Search Doctor . . . .', // Placeholder text
+                  hintStyle:
+                      TextStyle(color: Colors.grey), // Placeholder text style
+                  border: InputBorder.none, // No border
                 ),
               ),
             ),
           ),
+          // Expanded container for category blocks
           Expanded(
             child: ListView.builder(
-              itemCount: (categories.length / 3).ceil(),
+              // ListView builder for category blocks
+              itemCount: (categories.length / 3).ceil(), // Number of rows
               itemBuilder: (context, rowIndex) {
                 return Column(
+                  // Column for each row of category blocks
                   children: [
                     Row(
+                      // Row for category blocks
                       children: [
                         for (int i = rowIndex * 3;
                             i < (rowIndex * 3) + 3 && i < categories.length;
                             i++)
                           Expanded(
+                            // Expanded widget to evenly distribute category blocks
                             child: CatBlock(
-                              name: categories[i]["name"]!,
-                              imageUrl: categories[i]["imageUrl"]!,
+                              // Custom category block widget
+                              name: categories[i]["name"]!, // Category name
+                              imageUrl: categories[i]
+                                  ["imageUrl"]!, // Category image URL
                             ),
                           ),
                       ],
                     ),
-                    SizedBox(height: 30), // Add spacing between rows
+                    SizedBox(height: 30), // Spacer between rows
                   ],
                 );
               },
             ),
           ),
+          // Button to add a doctor
           IconButton(
-            icon: Icon(Icons.add_circle_outline_sharp),
-            color: Colors.transparent,
+            icon: Icon(Icons.add_circle_outline_sharp), // Add doctor icon
+            color: Colors.transparent, // Transparent color
             onPressed: () {
               // Navigate to the screen where you can add a doctor
               Navigator.push(

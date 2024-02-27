@@ -1,67 +1,84 @@
-import 'package:flutter/material.dart';
-import 'package:app/DrList.dart';
+// Import necessary packages
+import 'package:flutter/material.dart'; // Flutter material library for UI components
+import 'package:app/DrList.dart'; // Import DrList widget for navigating to doctor list
 
+// Category block widget
 class CatBlock extends StatelessWidget {
-  final String name;
-  final String imageUrl;
+  final String name; // Name of the category
+  final String imageUrl; // Image URL for the category
 
+  // Constructor for CatBlock widget
   const CatBlock({
     Key? key,
-    required this.name,
-    required this.imageUrl,
+    required this.name, // Required parameter: name
+    required this.imageUrl, // Required parameter: imageUrl
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Gesture detector to detect taps
     return GestureDetector(
       onTap: () {
+        // Navigate to DrList screen when tapped
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DrList(category: name),
+            builder: (context) =>
+                DrList(category: name), // Pass category name to DrList
           ),
         );
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 15),
+        // Container for category block
+        margin:
+            EdgeInsets.symmetric(horizontal: 15), // Margin around the container
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          // Decoration for container
+          borderRadius: BorderRadius.circular(20), // Border radius
           boxShadow: [
+            // Box shadow for container
             BoxShadow(
-              color: Colors.black87.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 10,
-              offset: Offset(0, 5), // changes position of shadow
+              color:
+                  Colors.black87.withOpacity(0.3), // Shadow color with opacity
+              spreadRadius: 1, // Spread radius
+              blurRadius: 10, // Blur radius
+              offset: Offset(0, 5), // Shadow offset
             ),
           ],
         ),
         child: Stack(
+          // Stack to layer widgets
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              // Clip rounded rectangle for image
+              borderRadius: BorderRadius.circular(20), // Border radius
               child: Image.network(
-                imageUrl, // Use the imageUrl parameter
-                height: 110,
-                width: 110,
-                fit: BoxFit.cover,
+                // Network image
+                imageUrl, // Image URL from parameter
+                height: 110, // Image height
+                width: 110, // Image width
+                fit: BoxFit.cover, // Image fit
               ),
             ),
             Container(
-              height: 100,
-              width: 100,
+              // Transparent container for overlay
+              height: 100, // Container height
+              width: 100, // Container width
               decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(12),
+                // Decoration for container
+                color: Colors.transparent, // Transparent color
+                borderRadius: BorderRadius.circular(12), // Border radius
               ),
             ),
             Positioned(
-              left: 10,
-              bottom: 5,
+              // Positioned widget for text position
+              left: 10, // Left position
+              bottom: 5, // Bottom position
               child: Text(
-                name, // Use the name parameter
+                name, // Category name from parameter
                 style: TextStyle(
-                  color: Colors.transparent,
-                  fontWeight: FontWeight.w600,
+                  color: Colors.transparent, // Text color
+                  fontWeight: FontWeight.w600, // Text weight
                 ),
               ),
             ),

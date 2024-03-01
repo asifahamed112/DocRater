@@ -111,42 +111,51 @@ class DrList extends StatefulWidget {
   _DrListState createState() => _DrListState(); // Create state for DrList
 }
 
+String searchQuery = '';
+
 // State class for DrList widget
 class _DrListState extends State<DrList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // Transparent app bar background
-        title: Text(
-            '${widget.category} Doctors'), // Display category name in app bar title
+        backgroundColor: Colors.transparent,
+        title: Text('${widget.category} Doctors'),
       ),
       body: StreamBuilder(
-        // Stream builder to listen for changes in Firestore collection
         stream:
             FirebaseFirestore.instance.collection(widget.category).snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          // Check connection state
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-                child: CircularProgressIndicator()); // Show loading indicator
+            // If data is still loading, show a loading indicator
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(
-                child: Text('Error: ${snapshot.error}')); // Show error message
+            // If an error occurs, display the error message
+            return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(
-                child: Text(
-                    'No data available')); // Show message when no data available
+            // If there is no data available, display a message
+            return Center(child: Text('No data available'));
           } else {
+            // If data is available, proceed with sorting and displaying the list
+            // Sort the list of doctors based on the number of degrees they have
+            var sortedDocs = snapshot.data!.docs.toList();
+            sortedDocs.sort((a, b) {
+              String degreesA = a['degrees'] ?? '';
+              String degreesB = b['degrees'] ?? '';
+              // Split the degrees string by comma and compare the length of the resulting lists
+              return degreesB
+                  .split(',')
+                  .length
+                  .compareTo(degreesA.split(',').length);
+              // This comparison ensures that doctors with more degrees come first
+            });
+
             return ListView.builder(
-              // ListView builder to display list of doctors
-              itemCount:
-                  snapshot.data!.docs.length, // Number of items in the list
+              itemCount: sortedDocs.length,
               itemBuilder: (context, index) {
-                DocumentSnapshot document =
-                    snapshot.data!.docs[index]; // Get document snapshot
-                return DoctorListItem(
-                    document); // Return DoctorListItem widget for each doctor
+                DocumentSnapshot document = sortedDocs[index];
+                // For each doctor in the sorted list, display the corresponding DoctorListItem widget
+                return DoctorListItem(document);
               },
             );
           }

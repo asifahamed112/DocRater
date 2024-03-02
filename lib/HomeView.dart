@@ -37,6 +37,51 @@ class _HomeViewState extends State<HomeView> {
       "imageUrl":
           "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
     },
+    {
+      "name": "Sonologist",
+      "imageUrl":
+          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
+    },
+    {
+      "name": "Endocrine Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
+    },
+    {
+      "name": "Endocrine Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
+    },
+    {
+      "name": "Endocrine Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
+    },
+    {
+      "name": "Endocrine Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
+    },
+    {
+      "name": "Endocrine Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
+    },
+    {
+      "name": "Endocrine Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
+    },
+    {
+      "name": "Endocrine Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
+    },
+    {
+      "name": "Endocrine Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
+    },
     // Add more categories as needed
   ];
 

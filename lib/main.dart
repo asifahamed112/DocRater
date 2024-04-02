@@ -1,7 +1,7 @@
 // Import necessary packages
 import 'package:app/login_page.dart'; // Importing the LoginPage widget
 import 'package:firebase_core/firebase_core.dart'; // Importing Firebase Core package
-import 'package:flutter/material.dart'; // Importing Flutter material library for UI components
+import 'package:flutter/material.dart';
 
 // Main function, entry point of the app
 Future<void> main() async {

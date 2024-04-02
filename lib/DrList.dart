@@ -1,98 +1,125 @@
-// Import necessary packages
-import 'package:flutter/material.dart'; // Flutter material library for UI components
-import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore package for database operations
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// Widget to display information of a single doctor
 class DoctorListItem extends StatelessWidget {
-  final DocumentSnapshot doc; // Pass the entire DocumentSnapshot as parameter
+  final DocumentSnapshot doc;
+  final String searchQuery;
 
-  // Constructor for DoctorListItem widget
-  const DoctorListItem(this.doc, {Key? key}) : super(key: key);
+  const DoctorListItem(this.doc, this.searchQuery, {Key? key})
+      : super(key: key);
 
-  // Build method to create the UI for displaying doctor information
+  TextSpan _highlightText(String text) {
+    if (searchQuery.isEmpty) {
+      return TextSpan(text: text);
+    }
+    final List<TextSpan> spans = [];
+    int lastIndex = 0;
+    final lowercaseText = text.toLowerCase();
+    final lowercaseQuery = searchQuery.toLowerCase();
+
+    for (int i = lowercaseText.indexOf(lowercaseQuery);
+        i != -1;
+        i = lowercaseText.indexOf(lowercaseQuery, i + 1)) {
+      if (i > lastIndex) {
+        spans.add(TextSpan(
+            text: text.substring(lastIndex, i),
+            style: TextStyle(color: Colors.grey)));
+      }
+      final String match = text.substring(i, i + lowercaseQuery.length);
+      spans.add(
+          TextSpan(text: match, style: TextStyle(color: Colors.limeAccent)));
+      lastIndex = i + lowercaseQuery.length;
+    }
+
+    if (lastIndex < text.length) {
+      spans.add(TextSpan(
+          text: text.substring(lastIndex),
+          style: TextStyle(color: Colors.grey)));
+    }
+
+    return TextSpan(children: spans);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Extracting doctor information from the document
-    final doctorName = doc['name'] ?? 'No Name'; // Doctor name
-    final degrees = doc['degrees'] ?? 'No Degrees'; // Doctor degrees
-    final location = doc['location'] ?? 'No Location'; // Doctor location
-    final practiceDays =
-        doc['practiceDays'] ?? 'No Practice Days'; // Doctor practice days
-    final specialties =
-        doc['specialties'] ?? 'No Specialties'; // Doctor specialties
-    final visitingHour =
-        doc['visitingHour'] ?? 'No Visiting Hour'; // Doctor visiting hour
+    final doctorName = doc['name'] ?? 'No Name';
+    final degrees = doc['degrees'] ?? 'No Degrees';
+    final location = doc['location'] ?? 'No Location';
+    final practiceDays = doc['practiceDays'] ?? 'No Practice Days';
+    final specialties = doc['specialties'] ?? 'No Specialties';
+    final visitingHour = doc['visitingHour'] ?? 'No Visiting Hour';
 
-    // Return a card widget to display doctor information
     return Card(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20)), // Card shape
-      elevation: 10, // Card elevation
-      margin: EdgeInsets.all(15), // Card margin
-      color: Colors.black87, // Set card color to black
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: 10,
+      margin: EdgeInsets.all(15),
+      color: Colors.black87,
       child: Padding(
-        padding:
-            const EdgeInsets.fromLTRB(16, 16, 16, 8), // Padding inside card
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          // Display doctor name
-          Text(doctorName,
+          Text.rich(
+            _highlightText(doctorName),
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          Divider(thickness: 3, color: Colors.white),
+          Row(children: [
+            Icon(Icons.school, size: 16, color: Colors.white),
+            SizedBox(width: 8),
+            Expanded(
+                child: Text.rich(
+              _highlightText('Specialties: $specialties'),
               style: TextStyle(
-                fontWeight: FontWeight.bold, // Bold font weight
-                fontSize: 18, // Font size
-                color: Colors.white, // Set text color to white
-              )),
-          Divider(thickness: 3, color: Colors.white), // Divider line
-          // Display doctor specialties
-          Row(children: [
-            Icon(Icons.school,
-                size: 16, color: Colors.white), // Icon for specialties
-            SizedBox(width: 8), // Spacer
-            Expanded(
-                child: Text(
-                    'Specialties: $specialties', // Display doctor specialties
-                    style: TextStyle(
-                        color: Colors.grey))) // Set text color to grey
+                color: Colors.grey,
+              ),
+            ))
           ]),
-          // Display doctor degrees
           Row(children: [
-            Icon(Icons.work, size: 16, color: Colors.white), // Icon for degrees
-            SizedBox(width: 8), // Spacer
+            Icon(Icons.work, size: 16, color: Colors.white),
+            SizedBox(width: 8),
             Expanded(
-                child: Text('Degrees: $degrees', // Display doctor degrees
-                    style: TextStyle(
-                        color: Colors.grey))) // Set text color to grey
+                child: Text.rich(
+              _highlightText('Degrees: $degrees'),
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ))
           ]),
-          // Display doctor visiting hour
           Row(children: [
-            Icon(Icons.access_time,
-                size: 16, color: Colors.white), // Icon for visiting hour
-            SizedBox(width: 8), // Spacer
+            Icon(Icons.access_time, size: 16, color: Colors.white),
+            SizedBox(width: 8),
             Expanded(
-                child: Text(
-                    'Visiting Hour: $visitingHour', // Display visiting hour
-                    style: TextStyle(
-                        color: Colors.grey))) // Set text color to grey
+                child: Text.rich(
+              _highlightText('Visiting Hour: $visitingHour'),
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ))
           ]),
-          // Display doctor practice days
           Row(children: [
-            Icon(Icons.calendar_today,
-                size: 16, color: Colors.white), // Icon for practice days
-            SizedBox(width: 8), // Spacer
+            Icon(Icons.calendar_today, size: 16, color: Colors.white),
+            SizedBox(width: 8),
             Expanded(
-                child: Text(
-                    'Practice Days: $practiceDays', // Display practice days
-                    style: TextStyle(
-                        color: Colors.grey))) // Set text color to grey
+                child: Text.rich(
+              _highlightText('Practice Days: $practiceDays'),
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ))
           ]),
-          // Display doctor location
           Row(children: [
-            Icon(Icons.location_on,
-                size: 16, color: Colors.white), // Icon for location
-            SizedBox(width: 8), // Spacer
+            Icon(Icons.location_on, size: 16, color: Colors.white),
+            SizedBox(width: 8),
             Expanded(
-                child: Text('Location: $location', // Display location
-                    style: TextStyle(
-                        color: Colors.grey))) // Set text color to grey
+                child: Text.rich(
+              _highlightText('Location: $location'),
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ))
           ])
         ]),
       ),
@@ -100,21 +127,20 @@ class DoctorListItem extends StatelessWidget {
   }
 }
 
-// Main widget to display a list of doctors for a specific category
 class DrList extends StatefulWidget {
-  final String category; // Category of doctors to display
+  final String category;
 
-  // Constructor for DrList widget
   const DrList({Key? key, required this.category}) : super(key: key);
 
   @override
-  _DrListState createState() => _DrListState(); // Create state for DrList
+  _DrListState createState() => _DrListState();
 }
 
 String searchQuery = '';
 
-// State class for DrList widget
 class _DrListState extends State<DrList> {
+  String searchQuery = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,44 +148,79 @@ class _DrListState extends State<DrList> {
         backgroundColor: Colors.transparent,
         title: Text('${widget.category} Doctors'),
       ),
-      body: StreamBuilder(
-        stream:
-            FirebaseFirestore.instance.collection(widget.category).snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // If data is still loading, show a loading indicator
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            // If an error occurs, display the error message
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            // If there is no data available, display a message
-            return Center(child: Text('No data available'));
-          } else {
-            // If data is available, proceed with sorting and displaying the list
-            // Sort the list of doctors based on the number of degrees they have
-            var sortedDocs = snapshot.data!.docs.toList();
-            sortedDocs.sort((a, b) {
-              String degreesA = a['degrees'] ?? '';
-              String degreesB = b['degrees'] ?? '';
-              // Split the degrees string by comma and compare the length of the resulting lists
-              return degreesB
-                  .split(',')
-                  .length
-                  .compareTo(degreesA.split(',').length);
-              // This comparison ensures that doctors with more degrees come first
-            });
-
-            return ListView.builder(
-              itemCount: sortedDocs.length,
-              itemBuilder: (context, index) {
-                DocumentSnapshot document = sortedDocs[index];
-                // For each doctor in the sorted list, display the corresponding DoctorListItem widget
-                return DoctorListItem(document);
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value.toLowerCase();
+                });
               },
-            );
-          }
-        },
+              decoration: InputDecoration(
+                hintText: 'Search Doctors',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection(widget.category)
+                  .snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(child: Text('No data available'));
+                } else {
+                  var sortedDocs = snapshot.data!.docs.toList();
+                  sortedDocs.sort((a, b) {
+                    String degreesA = a['degrees'] ?? '';
+                    String degreesB = b['degrees'] ?? '';
+                    return degreesB
+                        .split(',')
+                        .length
+                        .compareTo(degreesA.split(',').length);
+                  });
+
+                  sortedDocs = sortedDocs.where((doc) {
+                    String name = doc['name']?.toLowerCase() ?? '';
+                    String specialties =
+                        doc['specialties']?.toLowerCase() ?? '';
+                    String location = doc['location']?.toLowerCase() ?? '';
+                    String degrees = doc['degrees']?.toLowerCase() ?? '';
+                    String practiceDays =
+                        doc['practiceDays']?.toLowerCase() ?? '';
+                    String visitingHour =
+                        doc['visitingHour']?.toLowerCase() ?? '';
+
+                    return name.contains(searchQuery) ||
+                        specialties.contains(searchQuery) ||
+                        location.contains(searchQuery) ||
+                        degrees.contains(searchQuery) ||
+                        practiceDays.contains(searchQuery) ||
+                        visitingHour.contains(searchQuery);
+                  }).toList();
+
+                  return ListView.builder(
+                    itemCount: sortedDocs.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot document = sortedDocs[index];
+                      return DoctorListItem(document, searchQuery);
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

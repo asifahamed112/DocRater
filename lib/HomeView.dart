@@ -27,14 +27,54 @@ class _HomeViewState extends State<HomeView> {
           "https://i.pinimg.com/originals/89/be/ea/89beeab39adf062bdf5dffcd4a6b610f.jpg"
     },
     {
+      "name": "Consult Sonologist",
+      "imageUrl":
+          "https://i.pinimg.com/originals/11/05/58/110558ea504abcc25560d043deb7068f.png"
+    },
+    {
+      "name": "Consultant Pathologist",
+      "imageUrl":
+          "https://i.pinimg.com/originals/7e/74/1d/7e741d44e5257b869e1c58094b5dfd97.png"
+    },
+    {
+      "name": "Sonologist",
+      "imageUrl":
+          "https://i.pinimg.com/originals/b0/25/64/b025644bc1c6c32aa3849c84341272f8.png"
+    },
+    {
+      "name": "Skin or Dermatology",
+      "imageUrl":
+          "https://i.pinimg.com/originals/e8/77/ff/e877ff2ae544dae0eb543e85b5c52745.png"
+    },
+    {
+      "name": "Diabetologist",
+      "imageUrl":
+          "https://i.pinimg.com/originals/53/30/df/5330df39e1cce305f82fdddaa60c951a.png"
+    },
+    {
+      "name": "Dietician",
+      "imageUrl":
+          "https://i.pinimg.com/originals/13/8a/c6/138ac67d487916a7278e19633a22b5ea.png"
+    },
+    {
       "name": "Endocrine Medicine",
       "imageUrl":
           "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
     },
     {
-      "name": "Sonologist",
+      "name": "Endocrinology",
       "imageUrl":
-          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
+          "https://i.pinimg.com/originals/8b/c1/80/8bc18099dd05caccbbf40d64d3a43994.png"
+    },
+    {
+      "name": "ENT, Head & Neck Surgery",
+      "imageUrl":
+          "https://i.pinimg.com/originals/96/88/f4/9688f461f5126398e735c8d2b260a6c1.png"
+    },
+    {
+      "name": "Eye or Ophthalmology",
+      "imageUrl":
+          "https://i.pinimg.com/originals/b3/89/8f/b3898ff2c1f632741ddf7f267c6092c9.png"
     },
     // Add more categories as needed
   ];
@@ -129,9 +169,9 @@ class _HomeViewState extends State<HomeView> {
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                childAspectRatio: 1.2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+                childAspectRatio: 1.3,
+                crossAxisSpacing: 0,
+                mainAxisSpacing: 20,
               ),
               itemCount: filteredCategories.length,
               itemBuilder: (context, index) {

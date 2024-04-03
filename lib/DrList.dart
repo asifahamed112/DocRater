@@ -150,23 +150,39 @@ class _DrListState extends State<DrList> {
       ),
       body: Column(
         children: [
+          Opacity(opacity: .1),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  searchQuery = value.toLowerCase();
-                });
-              },
-              decoration: InputDecoration(
-                hintText: 'Search Doctors',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 34),
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(.35),
+                      spreadRadius: 7,
+                      blurRadius: 20,
+                      blurStyle: BlurStyle.normal,
+                      offset: Offset(0, 0),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      searchQuery = value.toLowerCase();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    hintText: 'Search Docror . . . .',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: InputBorder.none,
+                  ),
+                ),
+              )),
           Expanded(
             child: StreamBuilder(
               stream: FirebaseFirestore.instance

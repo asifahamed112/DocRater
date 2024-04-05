@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 
 class DoctorListItem extends StatelessWidget {
   final DocumentSnapshot doc;
@@ -48,6 +49,7 @@ class DoctorListItem extends StatelessWidget {
     final practiceDays = doc['practiceDays'] ?? 'No Practice Days';
     final specialties = doc['specialties'] ?? 'No Specialties';
     final visitingHour = doc['visitingHour'] ?? 'No Visiting Hour';
+    final number = doc['number'] ?? 'No Number';
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -120,7 +122,31 @@ class DoctorListItem extends StatelessWidget {
                 color: Colors.grey,
               ),
             ))
-          ])
+          ]),
+          Row(children: [
+            // Add this row
+            Icon(Icons.phone, size: 16, color: Colors.white),
+            SizedBox(width: 8),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  Clipboard.setData(ClipboardData(text: number));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Number copied to clipboard'),
+                    ),
+                  );
+                },
+                child: Text.rich(
+                  _highlightText(number),
+                  style: TextStyle(
+                    color: Colors.grey,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ),
+          ]),
         ]),
       ),
     );

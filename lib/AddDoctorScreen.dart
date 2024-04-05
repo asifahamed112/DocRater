@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 
 List<String> categories = [
   "Cardiology",
@@ -67,38 +68,60 @@ List<String> categories = [
 ];
 
 class AddDoctorScreen extends StatefulWidget {
+  const AddDoctorScreen({super.key});
+
   @override
-  _AddDoctorScreenState createState() => _AddDoctorScreenState();
+  State<AddDoctorScreen> createState() => _AddDoctorScreenState();
 }
 
 class _AddDoctorScreenState extends State<AddDoctorScreen> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController degreesController = TextEditingController();
-  final TextEditingController practiceDaysController = TextEditingController();
-  final TextEditingController visitingHourController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
-  final TextEditingController specialtiesController = TextEditingController();
-  String selectedCategory = "Cardiology"; // Default category
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _degreesController = TextEditingController();
+  final TextEditingController _practiceDaysController = TextEditingController();
+  final TextEditingController _visitingHourController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _numberController = TextEditingController();
+  String _selectedCategory = categories.first;
+  String _errorMessage = '';
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _degreesController.dispose();
+    _practiceDaysController.dispose();
+    _visitingHourController.dispose();
+    _locationController.dispose();
+    _numberController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Doctor'),
+        title: const Text('Add Doctor'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (_errorMessage.isNotEmpty)
+              Text(
+                _errorMessage,
+                style: const TextStyle(color: Colors.red),
+              ),
+            const SizedBox(height: 16),
             DropdownButtonFormField<String>(
-              value: selectedCategory,
-              onChanged: (String? value) {
-                setState(() {
-                  selectedCategory = value!;
-                });
+              value: _selectedCategory,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _selectedCategory = value;
+                  });
+                }
               },
-              items: categories.map((String category) {
+              items: categories.map((category) {
                 return DropdownMenuItem<String>(
                   value: category,
                   child: Text(category),
@@ -106,39 +129,33 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
               }).toList(),
             ),
             TextField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Name'),
             ),
             TextField(
-              controller: degreesController,
-              decoration: InputDecoration(labelText: 'Degrees'),
+              controller: _degreesController,
+              decoration: const InputDecoration(labelText: 'Degrees'),
             ),
             TextField(
-              controller: practiceDaysController,
-              decoration: InputDecoration(labelText: 'Practice Days'),
+              controller: _practiceDaysController,
+              decoration: const InputDecoration(labelText: 'Practice Days'),
             ),
             TextField(
-              controller: visitingHourController,
-              decoration: InputDecoration(labelText: 'Visiting Hour'),
+              controller: _visitingHourController,
+              decoration: const InputDecoration(labelText: 'Visiting Hour'),
             ),
             TextField(
-              controller: locationController,
-              decoration: InputDecoration(labelText: 'Location'),
+              controller: _locationController,
+              decoration: const InputDecoration(labelText: 'Location'),
             ),
-            SizedBox(height: 16),
+            TextField(
+              controller: _numberController,
+              decoration: const InputDecoration(labelText: 'Number'),
+            ),
+            const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                // Call a function to add the doctor to Firestore
-                addDoctor();
-                // Clear the text fields after adding the doctor
-                nameController.clear();
-                degreesController.clear();
-                practiceDaysController.clear();
-                visitingHourController.clear();
-                locationController.clear();
-                specialtiesController.clear();
-              },
-              child: Text('Add Doctor'),
+              onPressed: _addDoctor, // Changed this line
+              child: const Text('Add Doctor'),
             ),
           ],
         ),
@@ -146,24 +163,61 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
     );
   }
 
-  void addDoctor() {
-    // Get a reference to the Firestore collection
-    CollectionReference doctors =
-        FirebaseFirestore.instance.collection(selectedCategory);
+  bool _canAddDoctor() {
+    return _nameController.text.isNotEmpty &&
+        _nameController.text.isNotEmpty &&
+        _degreesController.text.isNotEmpty &&
+        _practiceDaysController.text.isNotEmpty &&
+        _visitingHourController.text.isNotEmpty &&
+        _locationController.text.isNotEmpty;
+  }
 
-    // Add a new document to the doctors collection
-    doctors.add({
-      'category': selectedCategory,
-      'name': nameController.text,
-      'degrees': degreesController.text,
-      'practiceDays': practiceDaysController.text,
-      'visitingHour': visitingHourController.text,
-      'location': locationController.text,
-      'specialties': selectedCategory,
-    }).then((value) {
-      print('Doctor added with ID: ${value.id}');
-    }).catchError((error) {
-      print('Failed to add doctor: $error');
+  Future<void> _addDoctor() async {
+    if (_canAddDoctor()) {
+      final CollectionReference doctors =
+          FirebaseFirestore.instance.collection(_selectedCategory);
+
+      final QuerySnapshot existingDocs = await doctors
+          .where('name', isEqualTo: _nameController.text)
+          .where('degrees', isEqualTo: _degreesController.text)
+          .where('location', isEqualTo: _locationController.text)
+          .get();
+
+      if (existingDocs.docs.isNotEmpty) {
+        _showErrorMessage(
+            'A doctor with the same name, degree, and location already exists.');
+      } else {
+        await doctors.add({
+          'name': _nameController.text,
+          'degrees': _degreesController.text,
+          'practiceDays': _practiceDaysController.text,
+          'visitingHour': _visitingHourController.text,
+          'location': _locationController.text,
+          'number': _numberController.text,
+          'specialties': _selectedCategory,
+        });
+        _clearFields();
+      }
+    } else {
+      _showErrorMessage('Please fill in all required fields.');
+    }
+  }
+
+  void _showErrorMessage(String message) {
+    setState(() {
+      _errorMessage = message;
+    });
+  }
+
+  void _clearFields() {
+    _nameController.clear();
+    _degreesController.clear();
+    _practiceDaysController.clear();
+    _visitingHourController.clear();
+    _locationController.clear();
+    _numberController.clear();
+    setState(() {
+      _errorMessage = '';
     });
   }
 }

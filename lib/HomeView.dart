@@ -76,6 +76,11 @@ class _HomeViewState extends State<HomeView> {
       "imageUrl":
           "https://i.pinimg.com/originals/b3/89/8f/b3898ff2c1f632741ddf7f267c6092c9.png"
     },
+    {
+      "name": "Neurology",
+      "imageUrl":
+          "https://i.pinimg.com/originals/b3/89/8f/b3898ff2c1f632741ddf7f267c6092c9.png"
+    },
     // Add more categories as needed
   ];
 

@@ -11,11 +11,12 @@ class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends State<HomeView>
+    with AutomaticKeepAliveClientMixin {
   final TextEditingController _searchController = TextEditingController();
   List<Map<String, String>> filteredCategories = [];
 
-  final List<Map<String, String>> categories = [
+  static const List<Map<String, String>> categories = [
     {
       "name": "Cardiology",
       "imageUrl":
@@ -77,9 +78,39 @@ class _HomeViewState extends State<HomeView> {
           "https://i.pinimg.com/originals/b3/89/8f/b3898ff2c1f632741ddf7f267c6092c9.png"
     },
     {
+      "name": "Gastroenterology",
+      "imageUrl":
+          "https://i.pinimg.com/originals/6e/2f/91/6e2f919d6dd8354f6e1e5e93e553bb33.png"
+    },
+    {
       "name": "Neurology",
       "imageUrl":
-          "https://i.pinimg.com/originals/b3/89/8f/b3898ff2c1f632741ddf7f267c6092c9.png"
+          "https://i.pinimg.com/originals/2d/fe/09/2dfe0902c68d266452fbb2c792f27259.png"
+    },
+    {
+      "name": "General Surgery",
+      "imageUrl":
+          "https://i.pinimg.com/originals/69/a5/e8/69a5e8d292aba2df65932b64a6a0bb01.png"
+    },
+    {
+      "name": "Haematology",
+      "imageUrl":
+          "https://i.pinimg.com/originals/b1/5e/81/b15e810cf0f418cfd9c0bb80c4e517ff.png"
+    },
+    {
+      "name": "Liver Medicine or Hepatology",
+      "imageUrl":
+          "https://i.pinimg.com/originals/43/4e/b6/434eb6a91d312c0893e7a894cd4401c4.png"
+    },
+    {
+      "name": "Liver, Biliary And Pancreatic Surgery",
+      "imageUrl":
+          "https://i.pinimg.com/originals/cb/73/03/cb7303d735497f07c606a8fe56e2ec3c.png"
+    },
+    {
+      "name": "Medicine",
+      "imageUrl":
+          "https://i.pinimg.com/originals/80/a2/66/80a266e088b40ad4a165e7b127e53e3a.png"
     },
     // Add more categories as needed
   ];
@@ -92,86 +123,16 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // For AutomaticKeepAliveClientMixin
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Hello ${widget.userName}",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Find your specialist",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 34),
-                height: 45,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(.3),
-                      spreadRadius: 7,
-                      blurRadius: 20,
-                      blurStyle: BlurStyle.normal,
-                      offset: Offset(0, 0),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  onChanged: (value) {
-                    setState(() {
-                      filteredCategories = categories
-                          .where((category) => category["name"]!
-                              .toLowerCase()
-                              .contains(value.toLowerCase()))
-                          .toList();
-                    });
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Search Category . . . .',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "Categories",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(),
+          _buildSearchField(),
+          Expanded(
+            child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 childAspectRatio: 1.3,
@@ -186,30 +147,140 @@ class _HomeViewState extends State<HomeView> {
                 );
               },
             ),
-            SizedBox(height: 20),
-            Center(
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddDoctorScreen()),
-                  );
-                },
-                icon: Icon(Icons.add),
-                label: Text("Add Doctor"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-              ),
+          ),
+          _buildAddDoctorButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Hello ${widget.userName}",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Find your specialist",
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
-            SizedBox(height: 20),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 34),
+        height: 45,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(.3),
+              spreadRadius: 7,
+              blurRadius: 20,
+              blurStyle: BlurStyle.normal,
+              offset: Offset(0, 0),
+            ),
           ],
+        ),
+        child: TextField(
+          controller: _searchController,
+          onChanged: _onSearchTextChanged,
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            hintText: 'Search Category . . . .',
+            hintStyle: TextStyle(color: Colors.grey),
+            border: InputBorder.none,
+          ),
         ),
       ),
     );
   }
+
+  Widget _buildCategoriesGrid() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            "Categories",
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 1.3,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 20,
+          ),
+          itemCount: filteredCategories.length,
+          itemBuilder: (context, index) {
+            return CatBlock(
+              name: filteredCategories[index]["name"]!,
+              imageUrl: filteredCategories[index]["imageUrl"]!,
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAddDoctorButton() {
+    return Center(
+      child: ElevatedButton.icon(
+        onPressed: _navigateToAddDoctorScreen,
+        icon: Icon(Icons.add),
+        label: Text("Add Doctor"),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _onSearchTextChanged(String value) {
+    setState(() {
+      filteredCategories = categories
+          .where((category) =>
+              category["name"]!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
+  }
+
+  void _navigateToAddDoctorScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddDoctorScreen()),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true; // For AutomaticKeepAliveClientMixin
 }

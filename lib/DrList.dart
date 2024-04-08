@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class DoctorListItem extends StatelessWidget {
   final DocumentSnapshot doc;
@@ -58,98 +59,135 @@ class DoctorListItem extends StatelessWidget {
       color: Colors.black87,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text.rich(
-            _highlightText(doctorName),
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text.rich(
+              _highlightText(doctorName),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
             ),
-          ),
-          Divider(thickness: 3, color: Colors.white),
-          Row(children: [
-            Icon(Icons.school, size: 16, color: Colors.white),
-            SizedBox(width: 8),
-            Expanded(
-                child: Text.rich(
-              _highlightText('Specialties: $specialties'),
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ))
-          ]),
-          Row(children: [
-            Icon(Icons.work, size: 16, color: Colors.white),
-            SizedBox(width: 8),
-            Expanded(
-                child: Text.rich(
-              _highlightText('Degrees: $degrees'),
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ))
-          ]),
-          Row(children: [
-            Icon(Icons.access_time, size: 16, color: Colors.white),
-            SizedBox(width: 8),
-            Expanded(
-                child: Text.rich(
-              _highlightText('Visiting Hour: $visitingHour'),
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ))
-          ]),
-          Row(children: [
-            Icon(Icons.calendar_today, size: 16, color: Colors.white),
-            SizedBox(width: 8),
-            Expanded(
-                child: Text.rich(
-              _highlightText('Practice Days: $practiceDays'),
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ))
-          ]),
-          Row(children: [
-            Icon(Icons.location_on, size: 16, color: Colors.white),
-            SizedBox(width: 8),
-            Expanded(
-                child: Text.rich(
-              _highlightText('Location: $location'),
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ))
-          ]),
-          Row(children: [
-            // Add this row
-            Icon(Icons.phone, size: 16, color: Colors.white),
-            SizedBox(width: 8),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  Clipboard.setData(ClipboardData(text: number));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Number copied to clipboard'),
+            Divider(thickness: 3, color: Colors.white),
+            Row(
+              children: [
+                Icon(Icons.school, size: 16, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text.rich(
+                    _highlightText('Specialties: $specialties'),
+                    style: TextStyle(
+                      color: Colors.grey,
                     ),
-                  );
-                },
-                child: Text.rich(
-                  _highlightText(number),
-                  style: TextStyle(
-                    color: Colors.grey,
-                    decoration: TextDecoration.underline,
                   ),
                 ),
-              ),
+              ],
             ),
-          ]),
-        ]),
+            Row(
+              children: [
+                Icon(Icons.work, size: 16, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text.rich(
+                    _highlightText('Degrees: $degrees'),
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.access_time, size: 16, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text.rich(
+                    _highlightText('Visiting Hour: $visitingHour'),
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.calendar_today, size: 16, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text.rich(
+                    _highlightText('Practice Days: $practiceDays'),
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.location_on, size: 16, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text.rich(
+                    _highlightText('Location: $location'),
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.phone, size: 16, color: Colors.white),
+                SizedBox(width: 8),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(text: number));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Number copied to clipboard'),
+                        ),
+                      );
+                    },
+                    child: Text.rich(
+                      _highlightText(number),
+                      style: TextStyle(
+                        color: Colors.grey,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+}
+
+class DrListModel extends ChangeNotifier {
+  List<DocumentSnapshot> _documents = [];
+  List<DocumentSnapshot> get documents => _documents;
+
+  Future<void> fetchDoctors(String category) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection(category)
+          .get()
+          .catchError((error) => throw error);
+      _documents = querySnapshot.docs;
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching doctors: $e');
+    }
   }
 }
 
@@ -169,60 +207,59 @@ class _DrListState extends State<DrList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Text('${widget.category} Doctors'),
-      ),
-      body: Column(
-        children: [
-          Opacity(opacity: .1),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 34),
-                height: 60,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(.35),
-                      spreadRadius: 7,
-                      blurRadius: 20,
-                      blurStyle: BlurStyle.normal,
-                      offset: Offset(0, 0),
+    return ChangeNotifierProvider<DrListModel>(
+        create: (_) => DrListModel(),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            title: Text('${widget.category} Doctors'),
+          ),
+          body: Column(
+            children: [
+              Opacity(opacity: .1),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 34),
+                    height: 60,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(.35),
+                          spreadRadius: 7,
+                          blurRadius: 20,
+                          blurStyle: BlurStyle.normal,
+                          offset: Offset(0, 0),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      searchQuery = value.toLowerCase();
-                    });
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Search Docror . . . .',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: InputBorder.none,
-                  ),
-                ),
-              )),
-          Expanded(
-            child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection(widget.category)
-                  .snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return Center(child: Text('No data available'));
-                } else {
-                  var sortedDocs = snapshot.data!.docs.toList();
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          searchQuery = value.toLowerCase();
+                        });
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.search),
+                        hintText: 'Search Docror . . . .',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  )),
+              Expanded(
+                child: Consumer<DrListModel>(builder: (context, model, child) {
+                  if (model.documents.isEmpty) {
+                    model.fetchDoctors(widget.category);
+                    return Center(
+                        child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                      strokeWidth: 2,
+                    ));
+                  }
+                  var sortedDocs = model.documents.toList();
                   sortedDocs.sort((a, b) {
                     String degreesA = a['degrees'] ?? '';
                     String degreesB = b['degrees'] ?? '';
@@ -250,20 +287,32 @@ class _DrListState extends State<DrList> {
                         practiceDays.contains(searchQuery) ||
                         visitingHour.contains(searchQuery);
                   }).toList();
-
-                  return ListView.builder(
-                    itemCount: sortedDocs.length,
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot document = sortedDocs[index];
-                      return DoctorListItem(document, searchQuery);
-                    },
+                  if (sortedDocs.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'No Doctor Found',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  }
+                  return ListWheelScrollView.useDelegate(
+                    itemExtent: 350, // Adjust the height of each item as needed
+                    diameterRatio: 4,
+                    childDelegate: ListWheelChildBuilderDelegate(
+                      childCount: sortedDocs.length,
+                      builder: (context, index) {
+                        DocumentSnapshot document = sortedDocs[index];
+                        return DoctorListItem(document, searchQuery);
+                      },
+                    ),
                   );
-                }
-              },
-            ),
+                }),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }

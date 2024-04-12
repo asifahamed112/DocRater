@@ -15,104 +15,96 @@ class _HomeViewState extends State<HomeView>
     with AutomaticKeepAliveClientMixin {
   final TextEditingController _searchController = TextEditingController();
   List<Map<String, String>> filteredCategories = [];
-
   static const List<Map<String, String>> categories = [
-    {
-      "name": "Cardiology",
-      "imageUrl":
-          "https://i.pinimg.com/736x/bc/3e/ec/bc3eec881fe88ab75bec51793e8321de.jpg"
-    },
-    {
-      "name": "Chest Medicine",
-      "imageUrl":
-          "https://i.pinimg.com/originals/89/be/ea/89beeab39adf062bdf5dffcd4a6b610f.jpg"
-    },
-    {
-      "name": "Consult Sonologist",
-      "imageUrl":
-          "https://i.pinimg.com/originals/11/05/58/110558ea504abcc25560d043deb7068f.png"
-    },
-    {
-      "name": "Consultant Pathologist",
-      "imageUrl":
-          "https://i.pinimg.com/originals/7e/74/1d/7e741d44e5257b869e1c58094b5dfd97.png"
-    },
-    {
-      "name": "Sonologist",
-      "imageUrl":
-          "https://i.pinimg.com/originals/b0/25/64/b025644bc1c6c32aa3849c84341272f8.png"
-    },
-    {
-      "name": "Skin or Dermatology",
-      "imageUrl":
-          "https://i.pinimg.com/originals/e8/77/ff/e877ff2ae544dae0eb543e85b5c52745.png"
-    },
-    {
-      "name": "Diabetologist",
-      "imageUrl":
-          "https://i.pinimg.com/originals/53/30/df/5330df39e1cce305f82fdddaa60c951a.png"
-    },
-    {
-      "name": "Dietician",
-      "imageUrl":
-          "https://i.pinimg.com/originals/13/8a/c6/138ac67d487916a7278e19633a22b5ea.png"
-    },
-    {
-      "name": "Endocrine Medicine",
-      "imageUrl":
-          "https://i.pinimg.com/originals/27/af/a3/27afa3595576c0dd6af0319e24463838.jpg"
-    },
-    {
-      "name": "Endocrinology",
-      "imageUrl":
-          "https://i.pinimg.com/originals/8b/c1/80/8bc18099dd05caccbbf40d64d3a43994.png"
-    },
-    {
-      "name": "ENT, Head & Neck Surgery",
-      "imageUrl":
-          "https://i.pinimg.com/originals/96/88/f4/9688f461f5126398e735c8d2b260a6c1.png"
-    },
-    {
-      "name": "Eye or Ophthalmology",
-      "imageUrl":
-          "https://i.pinimg.com/originals/b3/89/8f/b3898ff2c1f632741ddf7f267c6092c9.png"
-    },
-    {
-      "name": "Gastroenterology",
-      "imageUrl":
-          "https://i.pinimg.com/originals/6e/2f/91/6e2f919d6dd8354f6e1e5e93e553bb33.png"
-    },
-    {
-      "name": "Neurology",
-      "imageUrl":
-          "https://i.pinimg.com/originals/2d/fe/09/2dfe0902c68d266452fbb2c792f27259.png"
-    },
-    {
-      "name": "General Surgery",
-      "imageUrl":
-          "https://i.pinimg.com/originals/69/a5/e8/69a5e8d292aba2df65932b64a6a0bb01.png"
-    },
-    {
-      "name": "Haematology",
-      "imageUrl":
-          "https://i.pinimg.com/originals/b1/5e/81/b15e810cf0f418cfd9c0bb80c4e517ff.png"
-    },
-    {
-      "name": "Liver Medicine or Hepatology",
-      "imageUrl":
-          "https://i.pinimg.com/originals/43/4e/b6/434eb6a91d312c0893e7a894cd4401c4.png"
-    },
+    {"name": "Cardiology", "imageUrl": "card.jpg"},
+    {"name": "Chest Medicine", "imageUrl": "chest.jpg"},
+    {"name": "Consult Sonologist", "imageUrl": "csonologist.png"},
+    {"name": "Consultant Pathologist", "imageUrl": "pathologist.png"},
+    {"name": "Sonologist", "imageUrl": "sonologist.png"},
+    {"name": "Skin or Dermatology", "imageUrl": "dermatology.png"},
+    {"name": "Diabetologist", "imageUrl": "diabetologist.png"},
+    {"name": "Dietician", "imageUrl": "dietician.png"},
+    {"name": "Endocrine Medicine", "imageUrl": "endocrine.jpg"},
+    {"name": "Endocrinology", "imageUrl": "endocrinology.png"},
+    {"name": "ENT, Head & Neck Surgery", "imageUrl": "ent.png"},
+    {"name": "Eye or Ophthalmology", "imageUrl": "ophthalmology.png"},
+    {"name": "Gastroenterology", "imageUrl": "gastroenterology.png"},
+    {"name": "Neurosurgery", "imageUrl": "neurosurgery.png"},
+    {"name": "General Surgery", "imageUrl": "generalsurgery.png"},
+    {"name": "Haematology", "imageUrl": "haematology.png"},
+    {"name": "Liver Medicine or Hepatology", "imageUrl": "hepatology.png"},
     {
       "name": "Liver, Biliary And Pancreatic Surgery",
-      "imageUrl":
-          "https://i.pinimg.com/originals/cb/73/03/cb7303d735497f07c606a8fe56e2ec3c.png"
+      "imageUrl": "liver_surgery.png"
     },
+    {"name": "Medicine", "imageUrl": "medicine.png"},
     {
-      "name": "Medicine",
-      "imageUrl":
-          "https://i.pinimg.com/originals/80/a2/66/80a266e088b40ad4a165e7b127e53e3a.png"
+      "name": "Medicine And Neurology Specialist",
+      "imageUrl": "neurology_specialist.png"
     },
-    // Add more categories as needed
+    {"name": "Neurology", "imageUrl": "neur.png"},
+    {"name": "Gynaecology", "imageUrl": "gynaecology.png"},
+    {"name": "Orthopaedic Surgery", "imageUrl": "orthopaedic.png"},
+    {"name": "Pain Management", "imageUrl": "pain_management.png"},
+    {"name": "Pathologist", "imageUrl": "pathologist.png"},
+    {"name": "Child or Pediatric", "imageUrl": "pediatric.png"},
+    {"name": "Pediatric Surgery", "imageUrl": "pediatric_surgery.png"},
+    {
+      "name": "Physical Medicine And Rehabilitation",
+      "imageUrl": "rehabilitation.png"
+    },
+    /*{"name": "Physiotherapy Department", "imageUrl": "physiotherapy.png"},
+    {"name": "Psychiatry", "imageUrl": "psychiatry.png"},
+    {"name": "Radiologist & Sonologist", "imageUrl": "radiologist.png"},
+    {"name": "Radiology & Imaging", "imageUrl": "radiology.png"},
+    {"name": "Respiratory Medicine", "imageUrl": "respiratory.png"},
+    {"name": "Rheumatology Medicine", "imageUrl": "rheumatology.png"},
+    {"name": "Urology Surgery", "imageUrl": "urology_surgery.png"},
+    {"name": "Nephrology or Kidney Medicine", "imageUrl": "nephrology.png"},
+    {"name": "Urologist", "imageUrl": "urologist.png"},
+    {"name": "Hepatology", "imageUrl": "hepatology.png"},
+    {"name": "Child Neurology", "imageUrl": "child_neurology.png"},
+    {"name": "Nuclear Medicine", "imageUrl": "nuclear_medicine.png"},
+    {"name": "Child Paediatrics", "imageUrl": "child_pediatrics.png"},
+    {"name": "General and Colo-Rectal Surgeon", "imageUrl": "colo_rectal.png"},
+    {"name": "Orthopedics", "imageUrl": "orthopedics.png"},
+    {"name": "Colorectal Surgery", "imageUrl": "colorectal_surgery.png"},
+    {"name": "Paediatrics Surgery", "imageUrl": "pediatric_surgery.png"},
+    {"name": "Plastic Surgery", "imageUrl": "plastic_surgery.png"},
+    {"name": "Vascular Surgery", "imageUrl": "vascular_surgery.png"},
+    {"name": "Oncology", "imageUrl": "oncology.png"},
+    {
+      "name": "Breast, Colorectal & Laparoscopy Surgery",
+      "imageUrl": "breast_surgery.png"
+    },
+    {"name": "Lithotripsy Department", "imageUrl": "lithotripsy.png"},
+    {"name": "Medical Officer", "imageUrl": "medical_officer.png"},
+    {
+      "name": "Spine, Orthopaedic & Trauma Surgeon",
+      "imageUrl": "spine_surgeon.png"
+    },
+    {"name": "Hematology Specialist", "imageUrl": "hematology_specialist.png"},
+    {
+      "name": "Medicine and Diabetologist",
+      "imageUrl": "medicine_diabetologist.png"
+    },
+    {"name": "Nutritionist", "imageUrl": "nutritionist.png"},
+    {"name": "General Surgeon", "imageUrl": "general_surgeon.png"},
+    {
+      "name": "Clinical & Interventional Cardiologist",
+      "imageUrl": "interventional_cardiologist.png"
+    },
+    {"name": "Neuro Medicine", "imageUrl": "neuro_medicine.png"},
+    {
+      "name": "Child Specialist & Neonatologist",
+      "imageUrl": "child_specialist.png"
+    },
+    {"name": "Urology", "imageUrl": "urology.png"},
+    {"name": "General Physician", "imageUrl": "general_physician.png"},
+    {
+      "name": "Colorectal, Laparoscopy & Breast Surgeon",
+      "imageUrl": "colorectal_surgeon.png"
+    },*/
   ];
 
   @override
@@ -126,30 +118,17 @@ class _HomeViewState extends State<HomeView>
     super.build(context); // For AutomaticKeepAliveClientMixin
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeader(),
-          _buildSearchField(),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 1.3,
-                crossAxisSpacing: 0,
-                mainAxisSpacing: 20,
-              ),
-              itemCount: filteredCategories.length,
-              itemBuilder: (context, index) {
-                return CatBlock(
-                  name: filteredCategories[index]["name"]!,
-                  imageUrl: filteredCategories[index]["imageUrl"]!,
-                );
-              },
-            ),
-          ),
-          _buildAddDoctorButton(),
-        ],
+      body: SingleChildScrollView(
+        // Added ScrollView to prevent overflow
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeader(),
+            _buildSearchField(),
+            _buildCategoriesGrid(),
+            _buildAddDoctorButton(),
+          ],
+        ),
       ),
     );
   }
@@ -212,39 +191,39 @@ class _HomeViewState extends State<HomeView>
   }
 
   Widget _buildCategoriesGrid() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
             "Categories",
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),
           ),
-        ),
-        SizedBox(height: 10),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 1.3,
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 20,
+          SizedBox(height: 10),
+          SizedBox(
+            height: 380, // Set a fixed height for the grid view
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 1.3,
+                crossAxisSpacing: 0,
+                mainAxisSpacing: 20,
+              ),
+              itemCount: filteredCategories.length,
+              itemBuilder: (context, index) {
+                return CatBlock(
+                  name: filteredCategories[index]["name"]!,
+                  imageUrl: filteredCategories[index]["imageUrl"]!,
+                );
+              },
+            ),
           ),
-          itemCount: filteredCategories.length,
-          itemBuilder: (context, index) {
-            return CatBlock(
-              name: filteredCategories[index]["name"]!,
-              imageUrl: filteredCategories[index]["imageUrl"]!,
-            );
-          },
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -277,7 +256,25 @@ class _HomeViewState extends State<HomeView>
   void _navigateToAddDoctorScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => AddDoctorScreen()),
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            AddDoctorScreen(),
+        transitionDuration: Duration(milliseconds: 800),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return ScaleTransition(
+            scale: Tween<double>(
+              begin: 0.0,
+              end: 1.0,
+            ).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: Curves.elasticOut,
+              ),
+            ),
+            child: child,
+          );
+        },
+      ),
     );
   }
 

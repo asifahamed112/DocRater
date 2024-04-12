@@ -3,12 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+const shadowColor = Color.fromRGBO(0, 0, 0, 0.35);
+
 class DoctorListItem extends StatelessWidget {
   final DocumentSnapshot doc;
   final String searchQuery;
 
-  const DoctorListItem(this.doc, this.searchQuery, {Key? key})
-      : super(key: key);
+  const DoctorListItem(this.doc, this.searchQuery, {super.key});
 
   TextSpan _highlightText(String text) {
     if (searchQuery.isEmpty) {
@@ -25,18 +26,18 @@ class DoctorListItem extends StatelessWidget {
       if (i > lastIndex) {
         spans.add(TextSpan(
             text: text.substring(lastIndex, i),
-            style: TextStyle(color: Colors.grey)));
+            style: const TextStyle(color: Colors.grey)));
       }
       final String match = text.substring(i, i + lowercaseQuery.length);
-      spans.add(
-          TextSpan(text: match, style: TextStyle(color: Colors.limeAccent)));
+      spans.add(TextSpan(
+          text: match, style: const TextStyle(color: Colors.limeAccent)));
       lastIndex = i + lowercaseQuery.length;
     }
 
     if (lastIndex < text.length) {
       spans.add(TextSpan(
           text: text.substring(lastIndex),
-          style: TextStyle(color: Colors.grey)));
+          style: const TextStyle(color: Colors.grey)));
     }
 
     return TextSpan(children: spans);
@@ -55,7 +56,7 @@ class DoctorListItem extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 10,
-      margin: EdgeInsets.all(15),
+      margin: const EdgeInsets.all(15),
       color: Colors.black87,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -64,21 +65,21 @@ class DoctorListItem extends StatelessWidget {
           children: [
             Text.rich(
               _highlightText(doctorName),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
             ),
-            Divider(thickness: 3, color: Colors.white),
+            const Divider(thickness: 3, color: Colors.white),
             Row(
               children: [
-                Icon(Icons.school, size: 16, color: Colors.white),
-                SizedBox(width: 8),
+                const Icon(Icons.school, size: 16, color: Colors.white),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text.rich(
                     _highlightText('Specialties: $specialties'),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                     ),
                   ),
@@ -87,12 +88,12 @@ class DoctorListItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Icon(Icons.work, size: 16, color: Colors.white),
-                SizedBox(width: 8),
+                const Icon(Icons.work, size: 16, color: Colors.white),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text.rich(
                     _highlightText('Degrees: $degrees'),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                     ),
                   ),
@@ -101,12 +102,12 @@ class DoctorListItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Icon(Icons.access_time, size: 16, color: Colors.white),
-                SizedBox(width: 8),
+                const Icon(Icons.access_time, size: 16, color: Colors.white),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text.rich(
                     _highlightText('Visiting Hour: $visitingHour'),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                     ),
                   ),
@@ -115,12 +116,12 @@ class DoctorListItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Icon(Icons.calendar_today, size: 16, color: Colors.white),
-                SizedBox(width: 8),
+                const Icon(Icons.calendar_today, size: 16, color: Colors.white),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text.rich(
                     _highlightText('Practice Days: $practiceDays'),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                     ),
                   ),
@@ -129,12 +130,12 @@ class DoctorListItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Icon(Icons.location_on, size: 16, color: Colors.white),
-                SizedBox(width: 8),
+                const Icon(Icons.location_on, size: 16, color: Colors.white),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text.rich(
                     _highlightText('Location: $location'),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                     ),
                   ),
@@ -143,21 +144,21 @@ class DoctorListItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Icon(Icons.phone, size: 16, color: Colors.white),
-                SizedBox(width: 8),
+                const Icon(Icons.phone, size: 16, color: Colors.white),
+                const SizedBox(width: 8),
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: number));
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Number copied to clipboard'),
                         ),
                       );
                     },
                     child: Text.rich(
                       _highlightText(number),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.grey,
                         decoration: TextDecoration.underline,
                       ),
@@ -194,21 +195,19 @@ class DrListModel extends ChangeNotifier {
 class DrList extends StatefulWidget {
   final String category;
 
-  const DrList({Key? key, required this.category}) : super(key: key);
+  const DrList({super.key, required this.category});
 
   @override
   _DrListState createState() => _DrListState();
 }
-
-String searchQuery = '';
 
 class _DrListState extends State<DrList> {
   String searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DrListModel>(
-        create: (_) => DrListModel(),
+    return ChangeNotifierProvider.value(
+        value: DrListModel(),
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -216,11 +215,12 @@ class _DrListState extends State<DrList> {
           ),
           body: Column(
             children: [
-              Opacity(opacity: .1),
+              const Opacity(opacity: .1),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 34),
+                    padding: const EdgeInsets.symmetric(horizontal: 34),
                     height: 60,
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -300,7 +300,7 @@ class _DrListState extends State<DrList> {
                   }
                   return ListWheelScrollView.useDelegate(
                     itemExtent: 350, // Adjust the height of each item as needed
-                    diameterRatio: 4,
+                    diameterRatio: 6.5,
                     childDelegate: ListWheelChildBuilderDelegate(
                       childCount: sortedDocs.length,
                       builder: (context, index) {

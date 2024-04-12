@@ -1,7 +1,6 @@
 // Import necessary packages
 import 'package:flutter/material.dart'; // Flutter material library for UI components
 import 'package:app/DrList.dart'; // Import DrList widget for navigating to doctor list
-import 'package:cached_network_image/cached_network_image.dart';
 
 class CatBlock extends StatelessWidget {
   final String name;
@@ -41,10 +40,8 @@ class CatBlock extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                height: 110,
-                width: 110,
+              child: Image.asset(
+                'assets/images/$imageUrl', // Replace 'imageUrl' with the actual file name
                 fit: BoxFit.cover,
               ),
             ),

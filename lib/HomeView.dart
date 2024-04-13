@@ -32,7 +32,7 @@ class _HomeViewState extends State<HomeView>
     {"name": "Neurosurgery", "imageUrl": "neurosurgery.png"},
     {"name": "General Surgery", "imageUrl": "generalsurgery.png"},
     {"name": "Haematology", "imageUrl": "haematology.png"},
-    {"name": "Liver Medicine or Hepatology", "imageUrl": "hepatology.png"},
+    {"name": "Liver Medicine or Hepatology", "imageUrl": "hepatologylm.png"},
     {
       "name": "Liver, Biliary And Pancreatic Surgery",
       "imageUrl": "liver_surgery.png"
@@ -53,7 +53,7 @@ class _HomeViewState extends State<HomeView>
       "name": "Physical Medicine And Rehabilitation",
       "imageUrl": "rehabilitation.png"
     },
-    /*{"name": "Physiotherapy Department", "imageUrl": "physiotherapy.png"},
+    {"name": "Physiotherapy Department", "imageUrl": "physiotherapy.png"},
     {"name": "Psychiatry", "imageUrl": "psychiatry.png"},
     {"name": "Radiologist & Sonologist", "imageUrl": "radiologist.png"},
     {"name": "Radiology & Imaging", "imageUrl": "radiology.png"},
@@ -69,7 +69,6 @@ class _HomeViewState extends State<HomeView>
     {"name": "General and Colo-Rectal Surgeon", "imageUrl": "colo_rectal.png"},
     {"name": "Orthopedics", "imageUrl": "orthopedics.png"},
     {"name": "Colorectal Surgery", "imageUrl": "colorectal_surgery.png"},
-    {"name": "Paediatrics Surgery", "imageUrl": "pediatric_surgery.png"},
     {"name": "Plastic Surgery", "imageUrl": "plastic_surgery.png"},
     {"name": "Vascular Surgery", "imageUrl": "vascular_surgery.png"},
     {"name": "Oncology", "imageUrl": "oncology.png"},
@@ -104,7 +103,7 @@ class _HomeViewState extends State<HomeView>
     {
       "name": "Colorectal, Laparoscopy & Breast Surgeon",
       "imageUrl": "colorectal_surgeon.png"
-    },*/
+    },
   ];
 
   @override

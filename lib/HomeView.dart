@@ -104,6 +104,53 @@ class _HomeViewState extends State<HomeView>
       "name": "Colorectal, Laparoscopy & Breast Surgeon",
       "imageUrl": "colorectal_surgeon.png"
     },
+    {
+      "name": "Breast Cancer Specialist",
+      "imageUrl": "breast-cancer-specialist.png"
+    },
+    {"name": "Child Cardiology", "imageUrl": "child-cardiology.png"},
+    {"name": "Child Neuro Surgery", "imageUrl": "child-neuro-surgery.png"},
+    {
+      "name": "Child or Paediatric Nephrology",
+      "imageUrl": "child-or-paediatric-nephrology.png"
+    },
+    {"name": "Cardiac Surgery", "imageUrl": "cardiac-surgery.png"},
+    {"name": "Dentist", "imageUrl": "dentist.png"},
+    {"name": "Dental Surgery", "imageUrl": "dental-surgery.png"},
+    {"name": "Food & Nutrition", "imageUrl": "food-and-nutrition.png"},
+    {
+      "name": "Paediatric Gastroenterology & Nutrition",
+      "imageUrl": "paediatric-gastroenterology-and-nutrition.png"
+    },
+    {
+      "name": "Public Health Specialist",
+      "imageUrl": "public-health-specialist.png"
+    },
+    {"name": "Infertility & Gynae", "imageUrl": "infertility-and-gynae.png"},
+    {"name": "Gyane Oncology", "imageUrl": "gyane-oncology.png"},
+    {"name": "Oncology Surgery", "imageUrl": "oncology-surgery.png"},
+    {"name": "Pediatric Orthopedic", "imageUrl": "pediatric-orthopedic.png"},
+    {"name": "Clinical Oncology", "imageUrl": "clinical-oncology.png"},
+    {"name": "Thyroid", "imageUrl": "thyroid.png"},
+    {"name": "Lactation Consultant", "imageUrl": "lactation-consultant.png"},
+    {
+      "name": "Sports & Exercise Medicine",
+      "imageUrl": "sports-and-exercise-medicine.png"
+    },
+    {
+      "name": "Child Haematology & Oncology",
+      "imageUrl": "child-haematology-and-oncology.png"
+    },
+    {
+      "name": "Child or Paediatrics Chest Medicine",
+      "imageUrl": "child-or-paediatrics-chest-medicine.png"
+    },
+    {
+      "name": "Paediatric Haematology & Oncology",
+      "imageUrl": "paediatric-haematology-and-oncology.png"
+    },
+    {"name": "Hernia Surgery", "imageUrl": "hernia-surgery.png"},
+    {"name": "Forensic Medicine", "imageUrl": "forensic-medicine.png"}
   ];
 
   @override

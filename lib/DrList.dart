@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 
 const shadowColor = Color.fromRGBO(0, 0, 0, 0.35);
 
@@ -203,7 +204,7 @@ class DrList extends StatefulWidget {
 
 class _DrListState extends State<DrList> {
   String searchQuery = '';
-
+  Color backgroundColor = Colors.white;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -213,6 +214,7 @@ class _DrListState extends State<DrList> {
             backgroundColor: Colors.transparent,
             title: Text('${widget.category} Doctors'),
           ),
+          backgroundColor: backgroundColor,
           body: Column(
             children: [
               const Opacity(opacity: .1),
@@ -253,11 +255,11 @@ class _DrListState extends State<DrList> {
                 child: Consumer<DrListModel>(builder: (context, model, child) {
                   if (model.documents.isEmpty) {
                     model.fetchDoctors(widget.category);
-                    return Center(
-                        child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                      strokeWidth: 2,
-                    ));
+                    return LottieBuilder.asset(
+                      'animations/Loading.json', // Update with the correct path to your animation file
+                      width: 300, // Adjust the width as needed
+                      height: 400, // Adjust the height as needed
+                    );
                   }
                   var sortedDocs = model.documents.toList();
                   sortedDocs.sort((a, b) {

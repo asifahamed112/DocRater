@@ -1,9 +1,13 @@
 // Import necessary packages
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:app/UIhelper.dart'; // Custom UI helper class
 import 'package:app/signuppage.dart'; // Page for signing up
 import 'package:app/HomeView.dart'; // Home view after login
+import 'package:lottie/lottie.dart';
+import 'package:page_transition/page_transition.dart';
 
 // Define a stateful widget for the login page
 class LoginPage extends StatefulWidget {
@@ -26,27 +30,26 @@ class _LoginPageState extends State<LoginPage> {
 
   // Async function to handle login process
   Future<void> Login(String email, String password) async {
-    // Check if email and password are not empty
     if (email == "" && password == "") {
-      // Show alert if required fields are not entered
       return UiHelper.CustomAlertBox(context, "Enter Required Fields");
     } else {
       try {
-        // Sign in with email and password using Firebase authentication
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-        // Get username from user credentials, if available
         String userName = userCredential.user?.displayName ?? "";
-        // Navigate to home view after successful login
-        Navigator.pushReplacement(
+        showSuccessAnimation(context);
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.pushReplacement(
             context,
-            MaterialPageRoute(
-                builder: (context) => HomeView(
-                      userName: userName,
-                    )));
+            PageTransition(
+              child: HomeView(userName: userName),
+              type: PageTransitionType.fade,
+              duration: const Duration(milliseconds: 500),
+            ),
+          );
+        });
       } on FirebaseAuthException catch (ex) {
-        // Handle Firebase authentication exceptions
-        return UiHelper.CustomAlertBox(context, ex.code.toString());
+        showErrorAnimation(context);
       }
     }
   }
@@ -104,4 +107,56 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+void showSuccessAnimation(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierColor: Colors.black
+        .withOpacity(0.5), // Set the barrier color to a semi-transparent black
+    builder: (context) {
+      return Dialog(
+        backgroundColor: Colors
+            .transparent, // Set the background color of the Dialog to transparent
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Set the blur radius
+          child: ColorFiltered(
+            colorFilter:
+                ColorFilter.mode(Colors.transparent, BlendMode.srcATop),
+            child: Lottie.asset(
+              'animations/login_successfully.json',
+              width: 200,
+              height: 200,
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showErrorAnimation(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierColor: Colors.black
+        .withOpacity(0.5), // Set the barrier color to a semi-transparent black
+    builder: (context) {
+      return Dialog(
+        backgroundColor: Colors
+            .transparent, // Set the background color of the Dialog to transparent
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Set the blur radius
+          child: ColorFiltered(
+            colorFilter:
+                ColorFilter.mode(Colors.transparent, BlendMode.srcATop),
+            child: Lottie.asset(
+              'animations/login_unsuccessful.json',
+              width: 200,
+              height: 200,
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }

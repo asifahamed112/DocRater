@@ -302,7 +302,9 @@ class _DrListState extends State<DrList> {
                   }
                   return ListWheelScrollView.useDelegate(
                     itemExtent: 350, // Adjust the height of each item as needed
+                    physics: FixedExtentScrollPhysics(),
                     diameterRatio: 6.5,
+                    perspective: 0.004,
                     childDelegate: ListWheelChildBuilderDelegate(
                       childCount: sortedDocs.length,
                       builder: (context, index) {

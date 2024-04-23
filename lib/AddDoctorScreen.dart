@@ -238,8 +238,6 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
     _degreesController.clear();
     _practiceDaysController.clear();
     _visitingHourController.clear();
-    _locationController.clear();
-    _numberController.clear();
     setState(() {
       _errorMessage = '';
     });

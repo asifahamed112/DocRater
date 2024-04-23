@@ -1,4 +1,5 @@
 // Import necessary packages
+import 'package:app/HomeView.dart';
 import 'package:app/login_page.dart'; // Importing the LoginPage widget
 import 'package:firebase_core/firebase_core.dart'; // Importing Firebase Core package
 import 'package:flutter/material.dart';
